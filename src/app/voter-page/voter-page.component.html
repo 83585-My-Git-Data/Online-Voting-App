@@ -1,0 +1,156 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Voter List</h2>
+    <button class="btn btn-success" (click)="openAddVoterModal()">Add Voter</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Sr. No.</th>
+          <th>Voter ID</th>
+          <th>Name</th>
+          <th>DOB</th>
+          <th>Gender</th>
+          <th>Address</th>
+          <th>Aadhar</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let voter of voters; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ voter.id }}</td>
+          <td>{{ voter.name }}</td>
+          <td>{{ voter.dob | date : 'dd/MM/yyyy' }}</td>
+          <td>{{ voter.gender }}</td>
+          <td>{{ voter.address }}</td>
+          <td>{{ voter.aadhar }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm mx-1" (click)="openEditVoterModal(voter)">
+              <i class="bi bi-pencil-square"></i> Edit
+            </button>
+            <button class="btn btn-danger btn-sm mx-1" (click)="removeVoter(voter.id)">
+              <i class="bi bi-trash"></i> Remove
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="voters.length === 0">
+          <td colspan="8" class="text-center">No voters found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="voterModal" class="modal" tabindex="-1" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-warning text-white">
+          <h5 class="modal-title">{{ isEditMode ? "Edit Voter" : "Add Voter" }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input
+                type="text"
+                id="name"
+                class="form-control"
+                [(ngModel)]="voterForm.name"
+                name="name"
+                (ngModelChange)="validateForm()"
+                placeholder="Enter name (min 3 characters)"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="dob" class="form-label">DOB</label>
+              <input
+                type="date"
+                id="dob"
+                class="form-control"
+                [(ngModel)]="voterForm.dob"
+                name="dob"
+                (ngModelChange)="validateForm()"
+                [max]="maxDate"
+                placeholder="Select DOB"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="gender" class="form-label">Gender</label>
+              <div class="d-flex">
+                <div class="form-check me-3">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="male"
+                    value="Male"
+                    [(ngModel)]="voterForm.gender"
+                    name="gender"
+                    (change)="validateForm()"
+                  />
+                  <label class="form-check-label" for="male">Male</label>
+                </div>
+                <div class="form-check me-3">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="female"
+                    value="Female"
+                    [(ngModel)]="voterForm.gender"
+                    name="gender"
+                    (change)="validateForm()"
+                  />
+                  <label class="form-check-label" for="female">Female</label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="other"
+                    value="Other"
+                    [(ngModel)]="voterForm.gender"
+                    name="gender"
+                    (change)="validateForm()"
+                  />
+                  <label class="form-check-label" for="other">Other</label>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="address" class="form-label">Address</label>
+              <textarea
+                id="address"
+                class="form-control"
+                [(ngModel)]="voterForm.address"
+                name="address"
+                (ngModelChange)="validateForm()"
+                placeholder="Enter address (min 3 characters)"
+              ></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="aadhar" class="form-label">Aadhar</label>
+              <input
+                type="text"
+                id="aadhar"
+                class="form-control"
+                [(ngModel)]="voterForm.aadhar"
+                name="aadhar"
+                (ngModelChange)="validateForm()"
+                maxlength="12"
+                placeholder="Enter 12-digit Aadhar number"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+          <button type="button" class="btn btn-primary" (click)="saveVoter()" [disabled]="!isFormValid">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

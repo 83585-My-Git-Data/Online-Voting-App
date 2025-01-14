@@ -1,0 +1,95 @@
+<div class="container mt-5">
+    <!-- Header -->
+    <div class="text-center mb-4">
+      <h2 class="text-success fw-bold mb-4 pt-4">Candidate-Election Registration</h2>
+      <p class="text-muted">Register candidates to elections here.</p>
+    </div>
+
+    <div *ngIf="isCandidatesLoading || isElectionsLoading">
+        Loading candidates and elections, please wait...
+      </div>
+      
+    <br/>
+    <br/>
+    <!-- Dropdowns for Candidate and Election -->
+    <div class="row justify-content-center mb-4">
+
+
+      <div class="col-md-5">
+        <label for="candidateDropdown" class="form-label fw-semibold">
+          Choose One Candidate
+        </label>
+        <select
+          id="candidateDropdown"
+          class="form-select shadow-sm"
+          [(ngModel)]="selectedCandidateId"
+        >
+        <option [value]="null">-- Select Candidate --</option>
+          <option *ngFor="let candidate of candidates" [value]="candidate.id">
+            {{ candidate.name }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="col-md-5">
+        <label for="electionDropdown" class="form-label fw-semibold">
+          Choose an Election
+        </label>
+        <select
+          id="electionDropdown"
+          class="form-select shadow-sm"
+          [(ngModel)]="selectedElectionId"
+        >
+          <option value="" disabled selected hidden>All Election List</option>
+          <option *ngFor="let election of elections" [value]="election.id">
+            {{ election.electionType }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <br/>
+    <br/>
+    <hr/>
+    <br/>
+    
+    <!-- Register Button -->
+    <div class="text-center mb-5">
+        <button
+        class="btn btn-success btn-lg shadow-sm px-5"
+        [disabled]="isCandidatesLoading || isElectionsLoading || !selectedCandidateId || !selectedElectionId"
+        (click)="registerCandidateToElection()"
+      >
+        <span *ngIf="isRegistering; else registerText">
+          <i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i>
+          Registering...
+        </span>
+        <ng-template #registerText>Register</ng-template>
+      </button>
+    </div>
+  
+    <hr/>
+    <br/>
+    <!-- Table for Registered Candidates -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover">
+        <thead class="table-success text-center">
+          <tr>
+            <th>Sr. No</th>
+            <th>Candidate</th>
+            <th>Election</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let registration of registrations; let i = index"
+            class="text-center"
+          >
+            <td>{{ i + 1 }}</td>
+            <td>{{ registration.candidateName }}</td>
+            <td>{{ registration.electionName }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

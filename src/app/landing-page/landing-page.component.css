@@ -1,0 +1,17 @@
+.landing-para{
+    font-size: 30px;
+    color: rgb(203, 252, 255);
+    font-weight: 800;
+    font-family: sans-serif;
+    font-style: italic;
+    
+}
+
+.bg-container{
+    background: rgb(0,0,0);
+    background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,81,102,1) 100%);
+}
+
+.landing-heading{
+    color: white;
+}

@@ -1,0 +1,87 @@
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-center mb-4">Election Management</h2>
+        <button class="btn btn-info text-white mb-3" (click)="openAddElectionModal()">Add Election</button>
+    </div>
+    <table class="table table-bordered table-striped table-hover">
+      <thead class="">
+        <tr class="text-center">
+          <th>Sr.No</th>
+          <th>Election Id</th>
+          <th>Election Name</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let election of elections; let i = index">
+          <td class="text-center">{{ i + 1 }}</td>
+          <td class="text-center">{{ election.id }}</td>
+          <td class="text-center">{{ election.electionType }}</td>
+          <td class="text-center">{{ election.date | date: "dd-MMM-yyyy" }}</td>
+          <td class="text-center">
+            <button
+              class="btn btn-warning btn-sm mx-1"
+              (click)="openEditElectionModal(election)"
+            >
+              <i class="bi bi-pencil-square"></i> Edit
+            </button>
+            <button
+              class="btn btn-danger btn-sm mx-1"
+              (click)="removeElection(election.id)"
+            >
+              <i class="bi bi-trash"></i> Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Modal -->
+   <div class="modal-container">
+  <div id="electionModal" class="modal" tabindex="-1" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title">{{ isEditMode ? 'Edit Election' : 'Add Election' }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="electionType" class="form-label">Election Name</label>
+              <input
+                type="text"
+                id="electionType"
+                class="form-control"
+                [(ngModel)]="electionForm.electionType"
+                name="election_type"
+                placeholder="Enter election name"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="electionDate" class="form-label">Date</label>
+              <input
+                type="date"
+                id="electionDate"
+                class="form-control"
+                [(ngModel)]="electionForm.date"
+                name="date"
+                required
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" (click)="closeModal()">Close</button>
+          <button class="btn btn-success" (click)="saveElection()">
+            {{ isEditMode ? 'Update' : 'Save' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  

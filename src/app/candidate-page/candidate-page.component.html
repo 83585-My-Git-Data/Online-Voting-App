@@ -1,0 +1,180 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Candidate List</h2>
+    <button class="btn btn-success" (click)="openAddCandidateModal()">Add Candidate</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Sr. No.</th>
+          <th>Candidate ID</th>
+          <th>Name</th>
+          <th>DOB</th>
+          <th>Gender</th>
+          <th>Address</th>
+          <th>Aadhar</th>
+          <th>Party</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let candidate of candidates; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ candidate.id }}</td>
+          <td>{{ candidate.name }}</td>
+          <td>{{ candidate.dob | date : 'dd/MM/yyyy' }}</td>
+          <td>{{ candidate.gender }}</td>
+          <td>{{ candidate.address }}</td>
+          <td>{{ candidate.aadhar }}</td>
+          <td>{{ candidate.party }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm mx-1" (click)="openEditCandidateModal(candidate)">
+              <i class="bi bi-pencil-square"></i> Edit
+            </button>
+            <button class="btn btn-danger btn-sm mx-1" (click)="removeCandidate(candidate.id)">
+              <i class="bi bi-trash"></i> Remove
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="candidates.length === 0">
+          <td colspan="8" class="text-center">No candidates found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="candidateModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ isEditMode ? 'Edit Candidate' : 'Add Candidate' }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input
+                type="text"
+                id="name"
+                class="form-control"
+                [(ngModel)]="candidateForm.name"
+                name="name"
+                autocomplete="name"
+                (input)="validateForm()"
+                placeholder="Enter name (min 3 characters)"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="dob" class="form-label">DOB</label>
+              <input
+                type="date"
+                id="dob"
+                class="form-control"
+                [(ngModel)]="candidateForm.dob"
+                name="dob"
+                [max]="today"
+                (change)="validateForm()"
+                
+              />
+            </div>
+            <div class="mb-3">
+              <label for="gender" class="form-label">Gender</label>
+              <div class="d-flex">
+                <div class="form-check me-3">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="male"
+                    value="Male"
+                    [(ngModel)]="candidateForm.gender"
+                    name="gender"
+                    (change)="validateForm()"
+                  />
+                  <label class="form-check-label" for="male">Male</label>
+                </div>
+                <div class="form-check me-3">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="female"
+                    value="Female"
+                    [(ngModel)]="candidateForm.gender"
+                    name="gender"
+                    (change)="validateForm()"
+                  />
+                  <label class="form-check-label" for="female">Female</label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="other"
+                    value="Other"
+                    [(ngModel)]="candidateForm.gender"
+                    name="gender"
+                    (change)="validateForm()"
+                  />
+                  <label class="form-check-label" for="other">Other</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="address" class="form-label">Address</label>
+              <textarea
+                id="address"
+                class="form-control"
+                [(ngModel)]="candidateForm.address"
+                name="address"
+                autocomplete="street-address"
+                (input)="validateForm()"
+                placeholder="Enter address (min 3 characters)"
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="aadhar" class="form-label">Aadhar</label>
+              <input
+                type="text"
+                id="aadhar"
+                class="form-control"
+                [(ngModel)]="candidateForm.aadhar"
+                name="aadhar"
+                maxlength="12"
+                (input)="validateForm()"
+                placeholder="12 digits"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="party" class="form-label">Party</label>
+              <input
+                type="text"
+                id="party"
+                class="form-control"
+                [(ngModel)]="candidateForm.party"
+                name="party"
+                (input)="validateForm()"
+                placeholder="Enter Party Name (min 3 characters)"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="saveCandidate()"
+            [disabled]="!isFormValid"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

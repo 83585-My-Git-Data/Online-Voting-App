@@ -1,0 +1,74 @@
+<div class="container mt-4">
+    <h3 class="text-center text-success fw-bold mb-4 pt-4">Voter-Election-Candidate Page</h3>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="voterDropdown" class="form-label">Choose Voter</label>
+        <select
+          id="voterDropdown"
+          class="form-select shadow-sm"
+          [(ngModel)]="selectedVoter"
+        >
+          <option [value]="null">-- Select Voter --</option>
+          <option *ngFor="let voter of votersList" [value]="voter.id">
+            {{ voter.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="electionDropdown" class="form-label">Choose Election</label>
+        <select
+          id="electionDropdown"
+          class="form-select"
+          [(ngModel)]="selectedElection"
+          (change)="onElectionChange()"
+        >
+          <option [value]="null">-- Select Election --</option>
+          <option *ngFor="let election of electionsList" [value]="election.id">
+            {{ election.electionType }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="candidateDropdown" class="form-label">Choose Candidate</label>
+        <select
+          id="candidateDropdown"
+          class="form-select"
+          [(ngModel)]="selectedCandidate"
+        >
+          <option [value]="null">-- Select Candidate --</option>
+          <option *ngFor="let candidate of filteredCandidates" [value]="candidate.candidateElectionId">
+            {{ candidate.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <br />
+    <br />
+    <hr />
+    <div class="text-center mt-4">
+      <button class="btn btn-success" [disabled]="!canVote()" (click)="onVote()">
+        Vote
+      </button>
+    </div>
+    <hr />
+    <br />
+    <table class="table table-bordered table-striped mt-4">
+      <thead>
+        <tr class="table-success">
+          <th>Sr. No</th>
+          <th>Voter</th>
+          <th>Election</th>
+          <th>Candidate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vote of votesList; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ vote.voterName }}</td>
+          <td>{{ vote.electionName }}</td>
+          <td>{{ vote.candidateName }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

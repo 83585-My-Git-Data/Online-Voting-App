@@ -1,0 +1,137 @@
+<div class="container mt-5">
+  <!-- Heading -->
+  <div class="text-center">
+    <h2 class="text-primary">Election Statistics Page</h2>
+  </div>
+
+  <!-- Body Section -->
+  <div class="row mt-4">
+    <!-- Left Section -->
+    <div class="col-md-4">
+      <!-- Card 1: Candidate Votes by Election -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Candidate Votes by Election</h5>
+          <p class="card-text">You can see the no. of votes a candidate has got in a particular election.</p>
+          <div class="form-group">
+            <label for="candidateDropdown">Choose the Candidate</label>
+            <select
+              class="form-control custom-dropdown"
+              id="candidateDropdown"
+              [(ngModel)]="selectedCandidateId"
+            >
+              <option value="" disabled selected>-- Select Candidate --</option>
+              <option *ngFor="let candidate of candidates" [value]="candidate.id">
+                {{ candidate.name }}
+              </option>
+            </select>
+          </div>
+          <button class="btn btn-success mt-3" (click)="fetchCandidateVotes()">GO</button>
+        </div>
+      </div>
+
+      <!-- Card 2: Total Votes in a particular Election -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Total Votes in a particular Election</h5>
+          <p class="card-text">You can see the Total no. of votes in a particular election.</p>
+          <div class="form-group">
+            <label for="electionDropdown">Choose the Election</label>
+            <select
+              class="form-control custom-dropdown"
+              id="electionDropdown"
+              [(ngModel)]="selectedElectionId"
+            >
+              <option value="" disabled selected>-- Select Election --</option>
+              <option *ngFor="let election of elections" [value]="election.id">
+                {{ election.electionType }}
+              </option>
+            </select>
+          </div>
+          <button class="btn btn-success mt-3" (click)="fetchTotalVotes()">GO</button>
+        </div>
+      </div>
+
+      <!-- Card 3: Election wise Candidate Enrollment -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Election wise Candidate Enrollment</h5>
+          <p class="card-text">You can see the candidates enrolled in a particular election.</p>
+          <div class="form-group">
+            <label for="enrollmentDropdown">Choose the Election</label>
+            <select
+              class="form-control custom-dropdown"
+              id="enrollmentDropdown"
+              [(ngModel)]="selectedEnrollmentId"
+            >
+              <option value="" disabled selected>-- Select Election --</option>
+              <option *ngFor="let election of elections" [value]="election.id">
+                {{ election.electionType }}
+              </option>
+            </select>
+          </div>
+          <button class="btn btn-success mt-3" (click)="fetchCandidateEnrollment()">GO</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Section -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Statistics</h5>
+          <p class="card-text">
+            According to the Query results only one table will be shown here at a time.
+          </p>
+          <div *ngIf="modalData" class="table-responsive">
+            <table class="table table-bordered mt-3">
+              <thead>
+                <tr>
+                  <th *ngFor="let header of modalData.headers">{{ header }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of modalData.rows">
+                  <td *ngFor="let cell of row">{{ cell }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div
+    class="modal fade show"
+    [class.d-none]="!isModalOpen"
+    style="background-color: rgba(0,0,0,0.5);"
+    tabindex="-1"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Query Results</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th *ngFor="let header of modalData?.headers">{{ header }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of modalData?.rows">
+                  <td *ngFor="let cell of row">{{ cell }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

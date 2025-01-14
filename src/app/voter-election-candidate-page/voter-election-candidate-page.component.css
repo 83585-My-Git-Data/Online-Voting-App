@@ -1,0 +1,18 @@
+/* .container {
+    max-width: 900px;
+    margin: auto;
+  } */
+  
+  h3 {
+    font-weight: bold;
+  }
+  
+  .btn-success {
+    padding: 10px 20px;
+    width: 250px;
+  }
+  
+  .table {
+    margin-top: 20px;
+  }
+  
